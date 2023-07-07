@@ -6,6 +6,7 @@ import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import {db} from '../firebase.config';
 import { ReactComponent as ArrowRigthIcon } from "../assets/svg/keyboardArrowRightIcon.svg";
 import visibilityIcon from "../assets/svg/visibilityIcon.svg";
+import GoogleAuth from "../components/GoogleAuth";
 
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -102,6 +103,8 @@ function SignUp() {
               </button>
             </div>
           </form>
+
+          <GoogleAuth />
 
           <Link to="/sign-in" className="registerLink">
             Sign In Instead

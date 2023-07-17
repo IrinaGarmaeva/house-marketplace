@@ -6,6 +6,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase.config";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -158,9 +159,21 @@ function CreateListing() {
         return;
       })
 
+    const formDataCopy = {
+      ...formData,
+      imgUrls,
+      // geolocation,
+      timestamp: serverTimestamp()
+    }
 
-    console.log(imgUrls)
+    delete formDataCopy.images
+    !formDataCopy.offer && delete formDataCopy.discountPrice
+
+    const docRef = await addDoc(collection(db, 'listings'), formDataCopy)
+
     setLoading(false);
+    toast.success('Listing is saved')
+    navigate(`/category/${formDataCopy.type}/${docRef.id}`)
   };
 
   const onMutate = (e) => {
